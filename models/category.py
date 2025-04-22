@@ -1,3 +1,5 @@
+from itertools import product
+
 from models.product import Product
 
 
@@ -34,8 +36,24 @@ class Category:
     @property
     def products(self):
         report = ""
-        for product in self.__products:
+        for prod in self.__products:
             if report != "":
                 report += "\n"
-            report += f'{product.name.title()}, {product.price} руб. Остаток: {product.quantity} шт.'
+            report += prod.__
         return report
+
+    def __str__(self):
+        quantity = sum([prod.quantity for prod in self.__products])
+        return f"{self.name.upper()}, количество продуктов: {quantity} шт."
+
+if __name__ == "__main__":
+    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+
+    category1 = Category(
+        "Смартфоны",
+        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
+        [product1, product2, product3]
+    )
+    print(category1)

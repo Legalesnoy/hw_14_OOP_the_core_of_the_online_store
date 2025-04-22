@@ -14,12 +14,12 @@ def test_init(product_smartphone):
     assert product_smartphone.description == "256GB, Серый цвет, 200MP камера"
     assert product_smartphone.price == 1000.0
     assert product_smartphone.quantity == 5
-    assert product_smartphone.product_count == 1
+    assert product_smartphone.product_count == 7
     assert product_smartphone.product_id == 0
 
 
 def test__repr__(product_smartphone):
-    assert product_smartphone.__repr__() == ("номер товара: 1\n"
+    assert product_smartphone.__repr__() == ("номер товара: 7\n"
                                              "название: Samsung Galaxy S23 Ultra\n"
                                              "описание: 256GB, Серый цвет, 200MP камера\n"
                                              "цена: 1000.0\n"
@@ -28,7 +28,7 @@ def test__repr__(product_smartphone):
 
 
 def test_product_id(product_smartphone):
-    assert product_smartphone.product_id == 2
+    assert product_smartphone.product_id == 8
 
 
 def test_price_setter_increase(product_smartphone):

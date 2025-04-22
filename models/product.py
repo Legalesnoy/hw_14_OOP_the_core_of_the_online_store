@@ -54,3 +54,9 @@ class Product:
     @classmethod
     def new_product(cls, product: dict):
         return cls(**product)
+
+    def __str__(self):
+        return  f"{self.name.title()}, {self.__price} руб. Остаток: {self.product_count}шт."
+
+    def __add__(self, other):
+        return self.product_count*self.__price + other.product_count*other.__price
