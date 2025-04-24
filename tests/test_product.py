@@ -14,21 +14,21 @@ def test_init(product_smartphone):
     assert product_smartphone.description == "256GB, Серый цвет, 200MP камера"
     assert product_smartphone.price == 1000.0
     assert product_smartphone.quantity == 5
-    assert product_smartphone.product_count == 7
-    assert product_smartphone.product_id == 0
+    assert product_smartphone.product_count == 10
+    assert product_smartphone.product_id == 9
 
 
 def test__repr__(product_smartphone):
-    assert product_smartphone.__repr__() == ("номер товара: 7\n"
+    assert product_smartphone.__repr__() == ("номер товара: 10\n"
                                              "название: Samsung Galaxy S23 Ultra\n"
                                              "описание: 256GB, Серый цвет, 200MP камера\n"
                                              "цена: 1000.0\n"
                                              "количество в наличии: 5\n"
-                                             "количество товаров в базе: 2")
+                                             "количество товаров в базе: 11")
 
 
 def test_product_id(product_smartphone):
-    assert product_smartphone.product_id == 8
+    assert product_smartphone.product_id == 11
 
 
 def test_price_setter_increase(product_smartphone):
@@ -79,3 +79,16 @@ def test_zero_quantity_raises_error():
     with pytest.raises(ValueError) as exc_info:
         Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 1000, 0)
     assert "Товар с нулевым или отрицательным количеством не может быть добавлен" in str(exc_info.value)
+
+
+def test__str__(product_smartphone):
+    assert str(product_smartphone) == 'Samsung Galaxy S23 Ultra, 1000.0 руб. Остаток: 5 шт.'
+
+
+@pytest.fixture()
+def product_tablet():
+    return Product("iPad Pro", "12.9-inch, 1TB, Wi-Fi + Cellular", 250000.0, 3)
+
+
+def test__add__(product_smartphone, product_tablet):
+    assert (product_smartphone + product_tablet) == 755000.0

@@ -56,7 +56,7 @@ class Product:
         return cls(**product)
 
     def __str__(self):
-        return  f"{self.name.title()}, {self.__price} руб. Остаток: {self.product_count}шт."
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
-        return self.product_count*self.__price + other.product_count*other.__price
+        return self.quantity * self.__price + other.quantity * other.__price

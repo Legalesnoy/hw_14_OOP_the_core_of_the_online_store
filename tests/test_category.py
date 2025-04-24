@@ -1,6 +1,6 @@
 import pytest
 
-from models.category import Category
+from models.category import Category, ProductIterator
 from models.product import Product
 
 
@@ -40,7 +40,7 @@ def test_add_new_product(category_smartphone, product_tablet):
     initial_product_count = Category.product_count
     category_smartphone.add_product(product_tablet)
 
-    assert "Ipad Pro" in category_smartphone.products
+    assert "iPad Pro" in category_smartphone.products
     assert Category.product_count == initial_product_count + 1
 
 
@@ -51,3 +51,17 @@ def test_add_existing_product(category_smartphone, product_smartphone):
 
     assert "Samsung Galaxy S23 Ultra, 190000.0 руб. Остаток: 8 шт." in category_smartphone.products
     assert Category.product_count == initial_product_count
+
+
+def test__str__(category_smartphone):
+    assert str(category_smartphone) == 'Смартфоны, количество продуктов: 5 шт.'
+
+
+def test_products(category_smartphone):
+    assert str(category_smartphone.products) == 'Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.'
+
+
+def test_product_iterator(category_smartphone):
+    pr = ProductIterator(category_smartphone)
+    result = ''.join(p for p in pr)
+    assert result == 'Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.'
