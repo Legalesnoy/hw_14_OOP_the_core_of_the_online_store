@@ -59,4 +59,36 @@ class Product:
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
+        if not isinstance(other, type(self)):
+            raise TypeError
         return self.quantity * self.__price + other.quantity * other.__price
+
+
+class Smartphone(Product):
+    def __init__(self, name, description, price, quantity, efficiency, model, memory, color):
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+    def __str__(self):
+        return (f'{super().__str__()} '
+                f'производительность: {self.efficiency}, '
+                f'модель: {self.model}, '
+                f'объем встроенной памяти: {self.memory}, '
+                f'цвет: {self.color}')
+
+
+class LawnGrass(Product):
+    def __init__(self, name, description, price, quantity, country, germination_period, color):
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
+
+    def __str__(self):
+        return (f'{super().__str__()}, '
+                f'страна-производитель: {self.country}, '
+                f'срок прорастания: {self.germination_period}, '
+                f'цвет: {self.color.lower()}')

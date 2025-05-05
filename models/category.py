@@ -23,13 +23,16 @@ class Category:
         return self.__category_id
 
     def add_product(self, new_product: Product):
-        for prod in self.__products:
-            if prod.name == new_product.name:
-                prod.price = max(prod.price, new_product.price)
-                prod.quantity += new_product.quantity
-                return
-        self.__products.append(new_product)
-        Category.product_count += 1
+        if isinstance(new_product, Product):
+            for prod in self.__products:
+                if prod.name == new_product.name:
+                    prod.price = max(prod.price, new_product.price)
+                    prod.quantity += new_product.quantity
+                    return
+            self.__products.append(new_product)
+            Category.product_count += 1
+        else:
+            raise TypeError
 
     @property
     def products(self):

@@ -65,3 +65,8 @@ def test_product_iterator(category_smartphone):
     pr = ProductIterator(category_smartphone)
     result = ''.join(p for p in pr)
     assert result == 'Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.'
+
+
+def test_category_add_product_error(category_smartphone):
+    with pytest.raises(TypeError):
+        category_smartphone.add_product(1)
