@@ -1,7 +1,11 @@
+from models.base_product import BaseProduct
 from models.product import Product
 
 
-class Category:
+class Category(BaseProduct):
+    """класс для описания категории продукта"""
+
+    category_count = 0
     name: str  # название
     description: str  # описание
     __products: list[Product]  # список товаров категории
@@ -33,6 +37,9 @@ class Category:
             Category.product_count += 1
         else:
             raise TypeError
+
+    def new_product(self, new_product: Product):
+        self.add_product(new_product)
 
     @property
     def products(self):

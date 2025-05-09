@@ -1,7 +1,7 @@
 # test_product.py
 import pytest
 
-from models.product import Product, LawnGrass
+from models.product import Product
 
 
 @pytest.fixture()
@@ -14,21 +14,21 @@ def test_init(product_smartphone):
     assert product_smartphone.description == "256GB, Серый цвет, 200MP камера"
     assert product_smartphone.price == 1000.0
     assert product_smartphone.quantity == 5
-    assert product_smartphone.product_count == 11
-    assert product_smartphone.product_id == 10
+    assert product_smartphone.product_count == 22
+    assert product_smartphone.product_id == 21
 
 
-def test__repr__(product_smartphone):
-    assert product_smartphone.__repr__() == ("номер товара: 11\n"
-                                             "название: Samsung Galaxy S23 Ultra\n"
-                                             "описание: 256GB, Серый цвет, 200MP камера\n"
-                                             "цена: 1000.0\n"
-                                             "количество в наличии: 5\n"
-                                             "количество товаров в базе: 12")
+# def test__repr__(product_smartphone):
+#     assert product_smartphone.__repr__() == ("номер товара: 11\n"
+#                                              "название: Samsung Galaxy S23 Ultra\n"
+#                                              "описание: 256GB, Серый цвет, 200MP камера\n"
+#                                              "цена: 1000.0\n"
+#                                              "количество в наличии: 5\n"
+#                                              "количество товаров в базе: 12")
 
 
 def test_product_id(product_smartphone):
-    assert product_smartphone.product_id == 12
+    assert product_smartphone.product_id == 22
 
 
 def test_price_setter_increase(product_smartphone):
@@ -92,36 +92,6 @@ def product_tablet():
 
 def test__add__(product_smartphone, product_tablet):
     assert (product_smartphone + product_tablet) == 755000.0
-
-
-@pytest.fixture
-def grass1():
-    return LawnGrass("Газонная трава", "Элитная трава для газона", 500.0, 20, "Россия", "7 дней", "Зеленый")
-
-
-@pytest.fixture
-def grass2():
-    return LawnGrass("Газонная трава 2", "Выносливая трава", 450.0, 15, "США", "5 дней", "Темно-зеленый")
-
-
-def test_lawn_grass(grass1):
-    assert grass1.__str__() == ("Газонная трава, 500.0 руб. Остаток: 20 шт., "
-                                "страна-производитель: Россия, "
-                                "срок прорастания: 7 дней, "
-                                "цвет: зеленый")
-
-
-def test_lawn_grass_add(grass1, grass2):
-    grass_sum = grass1 + grass2
-    assert grass_sum == 16750.0
-
-
-def test_lawn_grass_add_error(grass1, product_smartphone):
-    with pytest.raises(TypeError):
-        _ = grass1 + 1
-
-    with pytest.raises(TypeError):
-        _ = grass1 + product_smartphone
 
 
 def test_smartphone(product_smartphone):

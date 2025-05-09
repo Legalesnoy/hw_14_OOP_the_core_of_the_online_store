@@ -1,4 +1,10 @@
-class Product:
+from models.base_product import BaseProduct
+from models.print_mixin import PrintMixin
+
+
+class Product(BaseProduct, PrintMixin):
+    """класс для описания полей товаров"""
+
     name: str  # название
     description: str  # описание
     __price: float  # цена
@@ -19,6 +25,7 @@ class Product:
             raise ValueError("Товар с нулевым или отрицательным количеством не может быть добавлен")
         self.__product_id = Product.product_count
         Product.product_count += 1
+        super().__init__()
 
     @property
     def product_id(self):
@@ -43,13 +50,13 @@ class Product:
             print(f"Стоиомость {self.name} не изменена. Цена '{new_price}'. "
                   f"Цена не должна быть нулевая или отрицательная.")
 
-    def __repr__(self):
-        return (f"номер товара: {self.product_id}\n"
-                f"название: {self.name}\n"
-                f"описание: {self.description}\n"
-                f"цена: {self.__price}\n"
-                f"количество в наличии: {self.quantity}\n"
-                f"количество товаров в базе: {self.product_count}")
+    # def __repr__(self):
+    #     return (f"номер товара: {self.product_id}\n"
+    #             f"название: {self.name}\n"
+    #             f"описание: {self.description}\n"
+    #             f"цена: {self.__price}\n"
+    #             f"количество в наличии: {self.quantity}\n"
+    #             f"количество товаров в базе: {self.product_count}")
 
     @classmethod
     def new_product(cls, product: dict):
@@ -59,36 +66,8 @@ class Product:
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
-        if not isinstance(other, type(self)):
+        """полная стоимость двух товаров на складе"""
+
+        if type(self) is not type(other):
             raise TypeError
-        return self.quantity * self.__price + other.quantity * other.__price
-
-
-class Smartphone(Product):
-    def __init__(self, name, description, price, quantity, efficiency, model, memory, color):
-        super().__init__(name, description, price, quantity)
-        self.efficiency = efficiency
-        self.model = model
-        self.memory = memory
-        self.color = color
-
-    def __str__(self):
-        return (f'{super().__str__()} '
-                f'производительность: {self.efficiency}, '
-                f'модель: {self.model}, '
-                f'объем встроенной памяти: {self.memory}, '
-                f'цвет: {self.color}')
-
-
-class LawnGrass(Product):
-    def __init__(self, name, description, price, quantity, country, germination_period, color):
-        super().__init__(name, description, price, quantity)
-        self.country = country
-        self.germination_period = germination_period
-        self.color = color
-
-    def __str__(self):
-        return (f'{super().__str__()}, '
-                f'страна-производитель: {self.country}, '
-                f'срок прорастания: {self.germination_period}, '
-                f'цвет: {self.color.lower()}')
+        return self.quantity * self.price + other.quantity * other.price
