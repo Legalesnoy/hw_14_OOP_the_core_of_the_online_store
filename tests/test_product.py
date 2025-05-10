@@ -1,6 +1,7 @@
 # test_product.py
 import pytest
 
+from models.exception import ZeroQuantityProduct
 from models.product import Product
 
 
@@ -14,8 +15,8 @@ def test_init(product_smartphone):
     assert product_smartphone.description == "256GB, Серый цвет, 200MP камера"
     assert product_smartphone.price == 1000.0
     assert product_smartphone.quantity == 5
-    assert product_smartphone.product_count == 22
-    assert product_smartphone.product_id == 21
+    assert product_smartphone.product_count == 25
+    assert product_smartphone.product_id == 24
 
 
 # def test__repr__(product_smartphone):
@@ -28,7 +29,7 @@ def test_init(product_smartphone):
 
 
 def test_product_id(product_smartphone):
-    assert product_smartphone.product_id == 22
+    assert product_smartphone.product_id == 25
 
 
 def test_price_setter_increase(product_smartphone):
@@ -76,9 +77,9 @@ def test_negative_price_raises_error():
 
 
 def test_zero_quantity_raises_error():
-    with pytest.raises(ValueError) as exc_info:
+    with pytest.raises(ZeroQuantityProduct) as exc_info:
         Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 1000, 0)
-    assert "Товар с нулевым или отрицательным количеством не может быть добавлен" in str(exc_info.value)
+    assert 'Товар с нулевым количеством не может быть добавлен' in str(exc_info.value)
 
 
 def test__str__(product_smartphone):

@@ -1,4 +1,5 @@
 from models.base_product import BaseProduct
+from models.exception import ZeroQuantityProduct
 from models.print_mixin import PrintMixin
 
 
@@ -22,7 +23,7 @@ class Product(BaseProduct, PrintMixin):
         if quantity > 0:
             self.quantity = quantity
         else:
-            raise ValueError("Товар с нулевым или отрицательным количеством не может быть добавлен")
+            raise ZeroQuantityProduct("Товар с нулевым количеством не может быть добавлен")
         self.__product_id = Product.product_count
         Product.product_count += 1
         super().__init__()

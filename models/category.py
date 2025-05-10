@@ -1,4 +1,5 @@
 from models.base_product import BaseProduct
+from models.exception import ZeroQuantityProduct
 from models.product import Product
 
 
@@ -28,13 +29,23 @@ class Category(BaseProduct):
 
     def add_product(self, new_product: Product):
         if isinstance(new_product, Product):
-            for prod in self.__products:
-                if prod.name == new_product.name:
-                    prod.price = max(prod.price, new_product.price)
-                    prod.quantity += new_product.quantity
-                    return
-            self.__products.append(new_product)
-            Category.product_count += 1
+
+            try:
+                if new_product.quantity == 0:
+                    raise ZeroQuantityProduct("Добавлять товар с нулевым количеством недопустимо")
+            except ZeroQuantityProduct as e:
+                print(str(e))
+            else:
+                for prod in self.__products:
+                    if prod.name == new_product.name:
+                        prod.price = max(prod.price, new_product.price)
+                        prod.quantity += new_product.quantity
+                        print('Товар добавлен успешно')
+                        return
+                self.__products.append(new_product)
+                Category.product_count += 1
+                print('Товар добавлен успешно')
+
         else:
             raise TypeError
 
@@ -48,6 +59,13 @@ class Category(BaseProduct):
     def __str__(self):
         quantity = sum([prod.quantity for prod in self.__products])
         return f"{self.name}, количество продуктов: {quantity} шт."
+
+    def middle_price(self):
+        """метод, который подсчитывает средний ценник всех товаров."""
+        try:
+            return sum([p.quantity for p in self.__products]) / len(self.__products)
+        except ZeroDivisionError:
+            return 0
 
 
 class ProductIterator:
@@ -85,9 +103,10 @@ if __name__ == "__main__":
     # print(category1)
     # print(category1.category_id)
     # print('-'*50)
-    product4 = Product("Iphone 15", "Фоновая подсветка", 12300000.0, 7)
+    product4 = Product("Iphone 15", "Фоновая подсветка", 12300000.0, 5)
     print(product4)
     print('* ' * 50)
+    product4.quantity = 0
     category1.add_product(product4)
     print(category1.products)
     print(' + ' * 20)

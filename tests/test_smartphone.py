@@ -15,8 +15,8 @@ def test_init(smartphone1):
     assert smartphone1.description == "256GB, Серый цвет, 200MP камера"
     assert smartphone1.price == 180000.0
     assert smartphone1.quantity == 5
-    assert smartphone1.product_count == 33
-    assert smartphone1.product_id == 32
+    assert smartphone1.product_count == 36
+    assert smartphone1.product_id == 35
 
 
 def test__str__(smartphone1):

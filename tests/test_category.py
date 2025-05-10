@@ -70,3 +70,28 @@ def test_product_iterator(category_smartphone):
 def test_category_add_product_error(category_smartphone):
     with pytest.raises(TypeError):
         category_smartphone.add_product(1)
+
+
+@pytest.fixture
+def category_without_prod_lst():
+    return Category("XXX",
+                    "XXX",
+                    []
+                    )
+
+
+def test_middle_price(category_smartphone, category_without_prod_lst):
+    assert category_smartphone.middle_price() == 5
+    assert category_without_prod_lst.middle_price() == 0
+
+
+def test_custom_exception(capsys, category_smartphone):
+    apple = Product("Яблоко", "Голден", 59.99, 50)
+    category_smartphone.add_product(apple)
+    message = capsys.readouterr()
+    assert message.out.strip().split('\n')[-1] == 'Товар добавлен успешно'
+
+    apple.quantity = 0
+    category_smartphone.add_product(apple)
+    message = capsys.readouterr()
+    assert message.out.strip().split('\n')[-1] == 'Добавлять товар с нулевым количеством недопустимо'
